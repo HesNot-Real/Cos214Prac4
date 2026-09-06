@@ -23,6 +23,9 @@ string Parcel::getStatusName() {
 }
 
 void Parcel::setState(ParcelState* newState) {
-	delete state;
+	if (state != nullptr) {
+
+		delete state;
+	}
 	state = newState;
 }
