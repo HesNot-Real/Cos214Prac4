@@ -6,11 +6,25 @@ Iterator* ZipCode::createIterator() {
 }
 
 void ZipCode::addParcel(Parcel* parcel) {
-	// TODO - implement ZipCode::addParcel
-	throw "Not yet implemented";
+	for (auto it = parcels.begin();it != parcels.end();it++) {
+		if (*it == parcel) {
+			return;
+		}
+	}
+	parcels.push_back(parcel);
 }
 
 void ZipCode::removeParcel(Parcel* parcel) {
-	// TODO - implement ZipCode::removeParcel
-	throw "Not yet implemented";
+	for (auto it = parcels.begin();it != parcels.end();it++) {
+		if (*it == parcel) {
+			parcels.erase(it);
+			return;
+		}
+	}
+}
+
+ZipCode::~ZipCode() {
+	for (auto parcel : parcels) {
+		delete parcel;
+	}
 }

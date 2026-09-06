@@ -1,18 +1,26 @@
 #ifndef REGION_H
 #define REGION_H
 
-class Region : AreaComponent {
+#include <vector>
+#include "AreaComponent.h"
+#include "RegionLevels.h"
+
+class Region : public AreaComponent {
 
 public:
-	std::vector<AreaComponent> children;
+	Region() = delete;
+	Region(RegionLevel level, std::string name) :AreaComponent(level, name) {};
+	std::vector<AreaComponent*> children;
 
-	void addComponent(AreaComponent param);
+	void addComponent(AreaComponent* param);
 
-	void remove(AreaComponent param);
+	void removeComponent(AreaComponent* param);
 
 	void addParcel(Parcel* parcel);
 
 	void removeParcel(Parcel* parcel);
+
+	virtual ~Region();
 };
 
 #endif

@@ -1,21 +1,54 @@
 #include "Region.h"
 
-void Region::addComponent(AreaComponent param) {
-	// TODO - implement Region::addComponent
-	throw "Not yet implemented";
+void Region::addComponent(AreaComponent* param) {
+
+
+	std::vector<AreaComponent*>::iterator it = children.begin();
+	for (;it != children.end();it++) {
+		if (*it == param) {
+			return;
+		}
+	}
+	children.push_back(param);
 }
 
-void Region::remove(AreaComponent param) {
-	// TODO - implement Region::remove
-	throw "Not yet implemented";
+void Region::removeComponent(AreaComponent* param) {
+	std::vector<AreaComponent*>::iterator it = children.begin();
+	for (;it != children.end();it++) {
+		if (*it == param) {
+			children.erase(it);
+			return;
+		}
+	}
 }
 
 void Region::addParcel(Parcel* parcel) {
-	// TODO - implement Region::addParcel
-	throw "Not yet implemented";
+	auto details = parcel->getDetails();
+
+	std::vector<AreaComponent*>::iterator it = children.begin();
+	for (;it != children.end();it++) {
+		if (details[(*it)->getLevel()] == (*it)->getName()) {
+			(*it)->addParcel(parcel);
+			return;
+		}
+	}
+
 }
 
 void Region::removeParcel(Parcel* parcel) {
-	// TODO - implement Region::removeParcel
-	throw "Not yet implemented";
+	auto details = parcel->getDetails();
+
+	std::vector<AreaComponent*>::iterator it = children.begin();
+	for (;it != children.end();it++) {
+		if (details[(*it)->getLevel()] == (*it)->getName()) {
+			(*it)->removeParcel(parcel);
+			return;
+		}
+	}
+}
+
+Region::~Region() {
+	for (auto child : children) {
+		delete child;
+	}
 }
