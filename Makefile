@@ -1,14 +1,14 @@
 
 CXX      := g++
-SUBDIRS  := EventGroups EventUnits
+SUBDIRS  := 
 INC_FLAGS := $(addprefix -Isrc/, $(SUBDIRS))
 CXXFLAGS  := -Wall -Wextra -std=c++11 -I. -Isrc $(INC_FLAGS)
-TARGET   := bin/eventFlow
+TARGET   := taskforge
 
 
 SRCS := $(wildcard src/**/*.cpp) $(wildcard src/*.cpp)
 HEADERS := $(wildcard src/**/*.h) $(wildcard src/*.h)
-PDFS := COS214_PA1.pdf
+PDFS := 
 
 ZIP_NAME=prac.zip
 
