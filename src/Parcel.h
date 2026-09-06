@@ -13,15 +13,14 @@ class Parcel {
 public:
 
 	Parcel();
-	
 
-	virtual boolean isPriority() = 0;
+	virtual bool isPriority() = 0;
 
-	virtual boolean isSigned() = 0;
+	virtual bool isSigned() = 0;
 
-	virtual boolean isFragile() = 0;
+	virtual bool isFragile() = 0;
 
-	virtual boolean isLarge() = 0;
+	virtual bool isLarge() = 0;
 
 	virtual string getCountry() = 0;
 
@@ -30,6 +29,8 @@ public:
 	virtual string getCity() = 0;
 
 	virtual string getZipCode() = 0;
+
+	virtual string description() = 0;
 
 	virtual ~Parcel();
 	//mo for state
