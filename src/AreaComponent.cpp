@@ -1,11 +1,11 @@
 #include "AreaComponent.h"
 
-string AreaComponent::getLevel() {
-	// TODO - implement AreaComponent::getLevel
-	throw "Not yet implemented";
+RegionLevel AreaComponent::getLevel()const {
+	return regionLevel;
 }
 
-string AreaComponent::getName() {
-	// TODO - implement AreaComponent::getName
-	throw "Not yet implemented";
+std::string AreaComponent::getName()const {
+	return regionName;
 }
+
+AreaComponent::~AreaComponent() {}
