@@ -1,18 +1,32 @@
 #ifndef ZIPCODE_H
 #define ZIPCODE_H
 
-class ZipCode : AreaComponent, Aggregate {
+#include <vector>
+#include <string>
+
+#include "AreaComponent.h"
+#include "Aggregate.h"
+#include "Iterator.h"
+#include "RegionLevels.h"
+
+class ZipCode : public AreaComponent, Aggregate {
 
 private:
-	std::vector<Parcel> parcels;
-	string code;
+	std::vector<Parcel*> parcels;
+	std::string code;
 
 public:
+
+	ZipCode() = delete;
+	ZipCode(std::string name) : AreaComponent(RegionLevel::ZipCode, name) {};
 	Iterator* createIterator();
 
 	void addParcel(Parcel* parcel);
 
 	void removeParcel(Parcel* parcel);
+
+
+	virtual ~ZipCode();
 };
 
 #endif

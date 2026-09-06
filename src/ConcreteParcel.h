@@ -1,32 +1,27 @@
 #ifndef CONCRETEPARCEL_H
 #define CONCRETEPARCEL_H
 
-class ConcreteParcel : Parcel {
 
+#include <map>
+#include <string>
+
+#include "Parcel.h"
+
+class ConcreteParcel : public Parcel {
 private:
-	string country;
-	string province;
-	string city;
-	string zipCode;
-
+	/// @brief Hold map of region level to its name. Levels include: Country, Province, City, ZipCode
+	std::map<RegionLevel, std::string> addressDetails;
 public:
-	std::map<std::string, std::string>& getDetails();
+	/// @brief Hold map of region level to its name. Levels include: Country, Province, City, ZipCode
+	std::map<RegionLevel, std::string>& getDetails();
 
-	boolean isPriority();
+	bool isPriority();
 
-	boolean isSigned();
+	bool isSigned();
 
-	boolean isFragile();
+	bool isFragile();
 
-	boolean isLarge();
-
-	string getCountry();
-
-	string getProvince();
-
-	string getCity();
-
-	string getZipCode();
+	bool isLarge();
 };
 
 #endif
