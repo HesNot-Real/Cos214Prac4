@@ -1,10 +1,20 @@
 #ifndef PARCEL_H
 #define PARCEL_H
 
+#include <string>
+#include <map>
+using namespace std;
+
 class Parcel {
 
+	protected:
+		ParcelState* state; //mo
 
 public:
+
+	Parcel();
+	
+
 	virtual boolean isPriority() = 0;
 
 	virtual boolean isSigned() = 0;
@@ -20,6 +30,16 @@ public:
 	virtual string getCity() = 0;
 
 	virtual string getZipCode() = 0;
+
+	virtual ~Parcel();
+	//mo for state
+	void advance();
+	void reportLost();
+	string getStatusName();
+	void setState(ParcelState* newState);
+
+
+
 };
 
 #endif
