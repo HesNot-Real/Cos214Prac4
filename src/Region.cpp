@@ -1,4 +1,5 @@
 #include "Region.h"
+#include "ParcelIterator.h"
 
 void Region::addComponent(AreaComponent* param) {
 
@@ -51,4 +52,21 @@ Region::~Region() {
 	for (auto child : children) {
 		delete child;
 	}
+}
+
+
+//trying something 
+
+// recursively walks every child, letting each level add its own parcels, without ever exposing children
+void Region::collectParcels(std::vector<Parcel*>& out) const {
+	for (auto child : children) {
+		child->collectParcels(out);
+	}
+}
+
+//  to flattens the whole subtree into one snapshot and wrap it in a ParcelIterator
+Iterator* Region::createIterator() {
+	std::vector<Parcel*> all;
+	collectParcels(all);
+	return new ParcelIterator(all);
 }

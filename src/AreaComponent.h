@@ -2,32 +2,36 @@
 #define AREACOMPONENT_H
 
 #include <string>
+#include <vector>
 
 #include "Parcel.h"
 #include "RegionLevels.h"
-class AreaComponent {
 
-private:
-	RegionLevel regionLevel;
-	std::string regionName;
+class AreaComponent : public Aggregate {
 
-public:
+	private:
+		RegionLevel regionLevel;
+		std::string regionName;
 
-	AreaComponent() = delete;
-	AreaComponent(RegionLevel level, std::string name) :regionLevel(level), regionName(name) {};
-	virtual void addComponent(AreaComponent* param) = 0;
+	public:
 
-	virtual void removeComponent(AreaComponent* param) = 0;
+		AreaComponent() = delete;
+		AreaComponent(RegionLevel level, std::string name) :regionLevel(level), regionName(name) {};
+		virtual void addComponent(AreaComponent* param) = 0;
 
-	virtual void addParcel(Parcel* parcel) = 0;
+		virtual void removeComponent(AreaComponent* param) = 0;
 
-	virtual void removeParcel(Parcel* parcel) = 0;
+		virtual void addParcel(Parcel* parcel) = 0;
 
-	RegionLevel getLevel() const;
+		virtual void removeParcel(Parcel* parcel) = 0;
 
-	std::string getName() const;
+		virtual void collectParcels(std::vector<Parcel*>& out) const = 0; // to not let main see 
 
-	virtual ~AreaComponent();
+		RegionLevel getLevel() const;
+
+		std::string getName() const;
+
+		virtual ~AreaComponent();
 };
 
 #endif

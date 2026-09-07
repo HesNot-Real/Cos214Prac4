@@ -23,6 +23,20 @@ void ZipCode::removeParcel(Parcel* parcel) {
 	}
 }
 
+void ZipCode::addComponent(AreaComponent* param) {
+	std::cout << "inval a ZipCode cannot contain nested regions" << std::endl;
+}
+
+void ZipCode::removeComponent(AreaComponent* param) {
+	std::cout << "Invalid a ZipCode cannot contain nested regions" << std::endl;
+}
+
+void ZipCode::collectParcels(std::vector<Parcel*>& out) const {
+
+	out.insert(out.end(), parcels.begin(), parcels.end());
+	
+}
+
 ZipCode::~ZipCode() {
 	for (auto parcel : parcels) {
 		delete parcel;

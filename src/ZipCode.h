@@ -5,11 +5,10 @@
 #include <string>
 
 #include "AreaComponent.h"
-#include "Aggregate.h"
 #include "Iterator.h"
 #include "RegionLevels.h"
 
-class ZipCode : public AreaComponent, public Aggregate {
+class ZipCode : public AreaComponent {
 
 private:
 	std::vector<Parcel*> parcels;
@@ -24,6 +23,9 @@ public:
 	void addParcel(Parcel* parcel);
 
 	void removeParcel(Parcel* parcel);
+	void addComponent(AreaComponent* param);
+	void removeComponent(AreaComponent* param);
+	void collectParcels(std::vector<Parcel*>& out) const;
 
 
 	virtual ~ZipCode();
