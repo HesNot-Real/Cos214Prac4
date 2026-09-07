@@ -7,7 +7,7 @@ Taskforge is a parcel delivery management system, aimed to help keep track of pa
 
 - [u24916031 - Jamie King](https://github.com/u24916031-Jamie)
 - [u25089464 - Lushomo Mankomba](https://github.com/HesNot-Real)
-- [Uxxx - Joelle Tsaku](https://github.com/Joelle-Tsaku)
+- [u24984362 - Joelle Tsaku](https://github.com/Joelle-Tsaku)
 
 
 ## Run Locally
@@ -24,10 +24,14 @@ Go to the project directory
 cd Cos214Prac4
 ```
 
-Run Docker
-
+Build Docker Image
 ```bash
-docker -it Cos214Prac4
+docker build -t cos214pa4 .
+```
+
+Run Docker
+```bash
+docker run --rm cos214pa4
 ```
 
 Compile

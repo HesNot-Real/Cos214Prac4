@@ -16,7 +16,7 @@ ZIP_NAME=prac.zip
 	
 
 all: $(TARGET)
-	make run
+	
 
 $(TARGET): 
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $@
