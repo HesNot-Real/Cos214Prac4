@@ -21,6 +21,7 @@ public:
 	bool isSigned();
 	bool isFragile();
 	bool isLarge();
+	std::string getLabel() override;
 };
 
 #endif

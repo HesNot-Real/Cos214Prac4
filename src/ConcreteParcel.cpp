@@ -44,3 +44,6 @@ bool ConcreteParcel::isLarge() {
 std::string ConcreteParcel::description() {
 	return label;
 }
+std::string ConcreteParcel::getLabel() { 
+	return label;
+}

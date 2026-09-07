@@ -9,6 +9,7 @@ public:
 	void advance(Parcel* context);
 	void reportLost(Parcel* context);
 	string getStatusName();
+	bool isSettled() override { return true; }
 };
 
 #endif

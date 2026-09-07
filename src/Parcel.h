@@ -41,9 +41,13 @@ public:
 	virtual void reportLost();
 	virtual string getStatusName();
 	virtual void setState(ParcelState* newState);
+//mo2
+	virtual bool isAwaitingPickup();
+	virtual bool isOnRoute();
+	virtual bool isSettled();
 	
 	virtual map<RegionLevel, string>& getDetails() = 0;
-
+	virtual string getLabel() = 0;
 
 
 };

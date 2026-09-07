@@ -24,10 +24,19 @@ class ParcelDecorator : public Parcel {
 		void reportLost() override { parcel->reportLost(); }
 		string getStatusName() override { return parcel->getStatusName(); }
 		void setState(ParcelState* newState) override { parcel->setState(newState); }
+//mo2
+		bool isAwaitingPickup() override { return parcel->isAwaitingPickup(); }
+		bool isOnRoute() override { return parcel->isOnRoute(); }
+		bool isSettled() override { return parcel->isSettled(); }
 
 
 		virtual string description(){
 			return parcel->description();
+		}
+
+		string getLabel() override {
+
+			return parcel->getLabel();
 		}
 
 		bool isPriority() override {

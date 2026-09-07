@@ -9,6 +9,7 @@ public:
 	void advance(Parcel* context);
 	void reportLost(Parcel* context);
 	string getStatusName();
+	bool isOnRoute() override { return true; }
 };
 
 #endif

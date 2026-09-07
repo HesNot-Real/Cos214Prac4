@@ -14,6 +14,10 @@ public:
 	virtual void reportLost(Parcel* context) = 0;
 	virtual string getStatusName() = 0;
 
+	virtual bool isAwaitingPickup() { return false; }
+	virtual bool isOnRoute() { return false; }
+	virtual bool isSettled() { return false; }
+
     virtual ~ParcelState() {}
 };
 

@@ -29,3 +29,7 @@ void Parcel::setState(ParcelState* newState) {
 	}
 	state = newState;
 }
+
+bool Parcel::isAwaitingPickup() { return state->isAwaitingPickup(); }
+bool Parcel::isOnRoute() { return state->isOnRoute(); }
+bool Parcel::isSettled() { return state->isSettled(); }
