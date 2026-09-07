@@ -9,8 +9,8 @@ class Iterator {
 public:
 
 	virtual void first() = 0;
-	virtual Parcel* next() = 0;
-	virtual Parcel* nextPriority() = 0;
+	virtual void next() = 0;
+	virtual void nextPriority() = 0;
 	virtual bool isDone() = 0;
 	virtual Parcel* currentItem() = 0;
 
