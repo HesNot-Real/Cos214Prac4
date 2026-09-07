@@ -1,26 +1,43 @@
+#include "ParcelState.h"
 #include "ParcelIterator.h"
+#include "Parcel.h"
+using namespace std;
+
+
+ParcelIterator::ParcelIterator(vector<Parcel*> parcelList) {
+	items = parcelList;
+	index = 0;
+}
 
 void ParcelIterator::first() {
-	// TODO - implement ParcelIterator::first
-	throw "Not yet implemented";
+	index = 0;
 }
 
 void ParcelIterator::next() {
-	// TODO - implement ParcelIterator::next
-	throw "Not yet implemented";
+	if (index < (int)items.size()) {
+		index++;
+	}
 }
 
 void ParcelIterator::nextPriority() {
-	// TODO - implement ParcelIterator::nextPriority
-	throw "Not yet implemented";
+
+	index++;
+	while (index < (int)items.size() && !items[index]->isPriority()) {
+		index++;
+	}
 }
 
-void ParcelIterator::isDone() {
-	// TODO - implement ParcelIterator::isDone
-	throw "Not yet implemented";
+bool ParcelIterator::isDone() {
+	return index >= (int)items.size();
 }
 
-void ParcelIterator::currentItem() {
-	// TODO - implement ParcelIterator::currentItem
-	throw "Not yet implemented";
+Parcel* ParcelIterator::currentItem() {
+	if (isDone()) {
+		return nullptr;
+	}
+	return items[index];
+}
+
+ParcelIterator::~ParcelIterator() {
+	// ownership
 }

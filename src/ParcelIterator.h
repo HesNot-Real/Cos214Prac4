@@ -1,19 +1,27 @@
 #ifndef PARCELITERATOR_H
 #define PARCELITERATOR_H
 
-class ParcelIterator : Iterator {
+#include <vector>
+#include "Iterator.h"
+using namespace std;
+
+class ParcelIterator : public Iterator {
+	private:
+		vector<Parcel*> items; // need this for the snapshot
+		int index;
+
+	public:
+		ParcelIterator() = delete;
+		ParcelIterator(vector<Parcel*> parcelList);
 
 
-public:
-	void first();
+		void first();
+		void next();
+		void nextPriority();
+		bool isDone();
+		Parcel* currentItem();
 
-	void next();
-
-	void nextPriority();
-
-	void isDone();
-
-	void currentItem();
+		virtual ~ParcelIterator();
 };
 
 #endif

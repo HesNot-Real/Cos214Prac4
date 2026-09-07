@@ -5,6 +5,8 @@
 #include <map>
 using namespace std;
 
+class ParcelState;
+
 class Parcel {
 
 	protected:
@@ -15,13 +17,13 @@ public:
 	Parcel();
 	
 
-	virtual boolean isPriority() = 0;
+	virtual bool isPriority() = 0;
 
-	virtual boolean isSigned() = 0;
+	virtual bool isSigned() = 0;
 
-	virtual boolean isFragile() = 0;
+	virtual bool isFragile() = 0;
 
-	virtual boolean isLarge() = 0;
+	virtual bool isLarge() = 0;
 
 	virtual string getCountry() = 0;
 
@@ -37,6 +39,7 @@ public:
 	void reportLost();
 	string getStatusName();
 	void setState(ParcelState* newState);
+	virtual map<RegionLevel, string>& getDetails() = 0;
 
 
 
