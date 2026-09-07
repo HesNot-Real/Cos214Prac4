@@ -15,6 +15,7 @@ public:
 	/// @brief Hold map of region level to its name. Levels include: Country, Province, City, ZipCode
 	std::map<RegionLevel, std::string>& getDetails();
 
+	ConcreteParcel(std::map<RegionLevel, std::string> details);
 	string description() override;
 
 	bool isPriority();

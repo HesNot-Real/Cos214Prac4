@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include "RegionLevels.h"
 using namespace std;
 
 class ParcelState;
@@ -24,22 +25,23 @@ public:
 
 	virtual bool isLarge() = 0;
 
-	virtual string getCountry() = 0;
+	// virtual string getCountry() = 0;
 
-	virtual string getProvince() = 0;
+	// virtual string getProvince() = 0;
 
-	virtual string getCity() = 0;
+	// virtual string getCity() = 0;
 
-	virtual string getZipCode() = 0;
+	// virtual string getZipCode() = 0;
 
 	virtual string description() = 0;
 
 	virtual ~Parcel();
 	//mo for state
-	void advance();
-	void reportLost();
-	string getStatusName();
-	void setState(ParcelState* newState);
+	virtual void advance();
+	virtual void reportLost();
+	virtual string getStatusName();
+	virtual void setState(ParcelState* newState);
+	
 	virtual map<RegionLevel, string>& getDetails() = 0;
 
 
