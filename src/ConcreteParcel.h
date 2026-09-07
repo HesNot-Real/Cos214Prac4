@@ -15,6 +15,8 @@ public:
 	/// @brief Hold map of region level to its name. Levels include: Country, Province, City, ZipCode
 	std::map<RegionLevel, std::string>& getDetails();
 
+	string description() override;
+
 	bool isPriority();
 
 	bool isSigned();

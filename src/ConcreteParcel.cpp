@@ -1,28 +1,28 @@
 #include "ConcreteParcel.h"
 
-std::map<std::string, std::string>& ConcreteParcel::getDetails() {
+std::map<RegionLevel, std::string>& ConcreteParcel::getDetails() {
 	// TODO - implement ConcreteParcel::getDetails
 	throw "Not yet implemented";
 }
 
-boolean ConcreteParcel::isPriority() {
+bool ConcreteParcel::isPriority() {
 	// TODO - implement ConcreteParcel::isPriority
-	throw "Not yet implemented";
+	return false;
 }
 
-boolean ConcreteParcel::isSigned() {
+bool ConcreteParcel::isSigned() {
 	// TODO - implement ConcreteParcel::isSigned
-	throw "Not yet implemented";
+	return false;
 }
 
-boolean ConcreteParcel::isFragile() {
+bool ConcreteParcel::isFragile() {
 	// TODO - implement ConcreteParcel::isFragile
-	throw "Not yet implemented";
+	return false;
 }
 
-boolean ConcreteParcel::isLarge() {
+bool ConcreteParcel::isLarge() {
 	// TODO - implement ConcreteParcel::isLarge
-	throw "Not yet implemented";
+	return false;
 }
 
 string ConcreteParcel::getCountry() {
@@ -39,4 +39,8 @@ string ConcreteParcel::getCity() {
 
 string ConcreteParcel::getZipCode() {
 	return this->zipCode;
+}
+
+string ConcreteParcel::description() {
+	return "Standard parcel";
 }

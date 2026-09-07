@@ -15,7 +15,6 @@ class Parcel {
 public:
 
 	Parcel();
-	
 
 	virtual bool isPriority() = 0;
 
@@ -32,6 +31,8 @@ public:
 	virtual string getCity() = 0;
 
 	virtual string getZipCode() = 0;
+
+	virtual string description() = 0;
 
 	virtual ~Parcel();
 	//mo for state
