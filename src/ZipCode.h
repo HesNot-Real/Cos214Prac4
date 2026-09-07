@@ -9,7 +9,7 @@
 #include "Iterator.h"
 #include "RegionLevels.h"
 
-class ZipCode : public AreaComponent, Aggregate {
+class ZipCode : public AreaComponent, public Aggregate {
 
 private:
 	std::vector<Parcel*> parcels;

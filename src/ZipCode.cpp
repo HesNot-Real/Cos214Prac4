@@ -1,8 +1,8 @@
 #include "ZipCode.h"
+#include "ParcelIterator.h"
 
 Iterator* ZipCode::createIterator() {
-	// TODO - implement ZipCode::createIterator
-	throw "Not yet implemented";
+	return new ParcelIterator(parcels);
 }
 
 void ZipCode::addParcel(Parcel* parcel) {
