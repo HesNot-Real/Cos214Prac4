@@ -1,5 +1,5 @@
-#ifndef DECORATOR_H
-#define DECORATOR_H
+#ifndef PARCELDECORATOR_H
+#define PARCELDECORATOR_H
 
 #include "Parcel.h"
 #include <string>
@@ -19,6 +19,11 @@ class ParcelDecorator : public Parcel {
 		map<RegionLevel, string>& getDetails() override {
 			return parcel->getDetails();
 		}
+//mo
+		void advance() override { parcel->advance(); }
+		void reportLost() override { parcel->reportLost(); }
+		string getStatusName() override { return parcel->getStatusName(); }
+		void setState(ParcelState* newState) override { parcel->setState(newState); }
 
 
 		virtual string description(){
@@ -41,21 +46,21 @@ class ParcelDecorator : public Parcel {
 			return parcel->isLarge();
 		}
 
-		string getCountry() override {
-			return parcel->getCountry();
-		}
+		// string getCountry() override {
+		// 	return parcel->getCountry();
+		// }
 
-		string getProvince() override {
-			return parcel->getProvince();
-		}
+		// string getProvince() override {
+		// 	return parcel->getProvince();
+		// }
 
-		string getCity() override {
-			return parcel->getCity();
-		}
+		// string getCity() override {
+		// 	return parcel->getCity();
+		// }
 
-		string getZipCode() override{
-			return parcel->getZipCode();
-		}
+		// string getZipCode() override{
+		// 	return parcel->getZipCode();
+		// }
 	
 };
 
