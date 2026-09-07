@@ -10,11 +10,12 @@
 class ConcreteParcel : public Parcel {
 private:
 	std::map<RegionLevel, std::string> addressDetails;
+	std::string label;
 public:
 	std::map<RegionLevel, std::string>& getDetails();
 
-	ConcreteParcel(std::map<RegionLevel, std::string> details);
-	string description() override;
+	ConcreteParcel(std::map<RegionLevel, std::string> details, std::string label);
+	std::string description() override;
 
 	bool isPriority();
 	bool isSigned();

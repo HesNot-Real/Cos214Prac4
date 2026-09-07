@@ -11,9 +11,14 @@
 
 using namespace std;
 
-int main() {
+//--------------------------------------------- network setup --------
+struct DeliveryNetwork {
+	Region* country;
+	ZipCode* zip0181;
+	ZipCode* zip0083;
+};
 
-	//-------- building the delivery hierarchy (composite) --------
+DeliveryNetwork buildNetwork() {
 	Region* country = new Region(RegionLevel::Country, "South Africa");
 	Region* province = new Region(RegionLevel::Province, "Gauteng");
 	Region* city = new Region(RegionLevel::City, "Pretoria");
@@ -25,125 +30,148 @@ int main() {
 	city->addComponent(zip0181);
 	city->addComponent(zip0083);
 
-	//-------- composite invalid operation since a ZipCode cannot hold regions --------
-	zip0181->addComponent(city);
+	return DeliveryNetwork{country, zip0181, zip0083};
+}
 
-	//-------- parcels for zip 0181 --------
+//-------- Thanks for the suggestion Jamie --------
+
+void printAddress(Parcel* p) {
+	map<RegionLevel, string> details = p->getDetails();
+	cout << "    " << details[RegionLevel::Country] << " > "
+	     << details[RegionLevel::Province] << " > "
+	     << details[RegionLevel::City] << " > "
+	     << details[RegionLevel::ZipCode] << endl;
+}
+
+//-------- scenario 1: morning dispatch ------------------------------------------------------------
+
+void runMorningDispatch(DeliveryNetwork& net) {
+	cout << "-------- Morning Dispatch --------" << endl;
+
+	Iterator* manifest = net.country->createIterator();
+	cout << "Manifest:" << endl;
+	manifest->first();
+	while (!manifest->isDone()) {
+		Parcel* item = manifest->currentItem();
+		cout << "  " << item->description() << " [" << item->getStatusName() << "]" << endl;
+		printAddress(item);
+		manifest->next();
+	}
+	delete manifest;
+
+	Iterator* priorityQueue = net.country->createIterator();
+	cout << "Priority load order:" << endl;
+	priorityQueue->first();
+	if (!priorityQueue->isDone() && !priorityQueue->currentItem()->isPriority()) {
+		priorityQueue->nextPriority();
+	}
+	while (!priorityQueue->isDone()) {
+		cout << "  " << priorityQueue->currentItem()->description() << endl;
+		priorityQueue->nextPriority();
+	}
+	delete priorityQueue;
+
+	cout << "Trucks depart." << endl;
+	Iterator* departure = net.country->createIterator();
+	departure->first();
+	while (!departure->isDone()) {
+		departure->currentItem()->advance(); // AwaitingPickup -> OnRoute
+		departure->next();
+	}
+	delete departure;
+}
+
+//-------- scenario 2: afternoon incident --------
+// (reroute and removeParcel as two distinct structural changes
+
+
+
+void runAfternoonIncident(DeliveryNetwork& net, Parcel* priorityParcel, Parcel* standardParcel) {
+	cout << "\n-------- Afternoon Incident --------" << endl;
+
+	cout << "Parcel misrouted, moving to correct zip code:" << endl;
+	net.zip0083->removeParcel(standardParcel);
+	net.zip0181->addParcel(standardParcel);
+	cout << "  " << standardParcel->description() << " now routed via 0181" << endl;
+
+	Iterator* endOfDayReport = net.zip0083->createIterator(); // snapshot taken 
+
+	cout << "Courier delivers: " << priorityParcel->description() << endl;
+	priorityParcel->advance(); // OnRoute -Delivered
+
+	cout << "the bru accidentally rescans it: ";
+	priorityParcel->advance();
+
+	cout << "driver can't locate a parcel in 0181:" << endl;
+	standardParcel->reportLost(); // OnRoute -> Lost (alternate branch)
+	cout << "  " << standardParcel->description() << " status: " << standardParcel->getStatusName() << endl;
+
+	//structural change 2    delivered parcel archived out
+	cout << "Delivered parcel is archived out of the active zip code." << endl;
+	net.zip0083->removeParcel(priorityParcel); // main now owns it DELETE MO
+
+	cout << "Supervisor's report (snapshot taken before the archive):" << endl;
+	endOfDayReport->first();
+	while (!endOfDayReport->isDone()) {
+		Parcel* item = endOfDayReport->currentItem();
+		cout << "  " << item->description() << " [" << item->getStatusName() << "]" << endl;
+		endOfDayReport->next();
+	}
+	delete endOfDayReport;
+
+	cout << "Live view (fresh iterator, created after the archive):" << endl;
+	Iterator* freshView = net.zip0083->createIterator();
+	freshView->first();
+	while (!freshView->isDone()) {
+		Parcel* item = freshView->currentItem();
+		cout << "  " << item->description() << " [" << item->getStatusName() << "]" << endl;
+		freshView->next();
+	}
+	delete freshView;
+
+	// oversized parcel rejected before it even enters the network 
+	cout << "\nNew intake: an oversized item arrives." << endl;
+	Parcel* oversized = new LargeParcel(new ConcreteParcel({
+		{RegionLevel::Country, "South Africa"}, {RegionLevel::Province, "Gauteng"},
+		{RegionLevel::City, "Pretoria"}, {RegionLevel::ZipCode, "0083"}
+	}, "Wardrobe"));
+
+	if (oversized->isLarge()) {
+		cout << "  " << oversized->description() << " requires special freight, not standard courier route." << endl;
+		delete oversized; // rejected and dont join comp
+	} else {
+		net.zip0083->addParcel(oversized);
+	}
+}
+
+int main() {
+	cout << "======= TaskForge: Regional Courier Dispatch ======" << endl;
+	cout << "Tracking parcels across South Africa > Gauteng > Pretoria\n" << endl;
+
+	DeliveryNetwork net = buildNetwork();
+
 	map<RegionLevel, string> addr0181 = {
-		{RegionLevel::Country, "South Africa"},
-		{RegionLevel::Province, "Gauteng"},
-		{RegionLevel::City, "Pretoria"},
-		{RegionLevel::ZipCode, "0181"}
+		{RegionLevel::Country, "South Africa"}, {RegionLevel::Province, "Gauteng"},
+		{RegionLevel::City, "Pretoria"}, {RegionLevel::ZipCode, "0181"}
 	};
-	ConcreteParcel* p1 = new ConcreteParcel(addr0181);
-	ConcreteParcel* p2 = new ConcreteParcel(addr0181);
-
-	//-------- parcels for zip 0083, one wrapped in stacked decorators --------
 	map<RegionLevel, string> addr0083 = {
-		{RegionLevel::Country, "South Africa"},
-		{RegionLevel::Province, "Gauteng"},
-		{RegionLevel::City, "Pretoria"},
-		{RegionLevel::ZipCode, "0083"}
+		{RegionLevel::Country, "South Africa"}, {RegionLevel::Province, "Gauteng"},
+		{RegionLevel::City, "Pretoria"}, {RegionLevel::ZipCode, "0083"}
 	};
-	ConcreteParcel* p3 = new ConcreteParcel(addr0083);
-	Parcel* p4 = new PriorityParcel(new FragileParcel(new SignedParcel(new ConcreteParcel(addr0083))));
 
-	country->addParcel(p1);
-	country->addParcel(p2);
-	country->addParcel(p3);
-	country->addParcel(p4);
+	ConcreteParcel* p1 = new ConcreteParcel(addr0181, "Order #4471");
+	Parcel* priorityParcel = new PriorityParcel(new FragileParcel(new SignedParcel(
+		new ConcreteParcel(addr0083, "Antique Vase"))));
+	ConcreteParcel* p3 = new ConcreteParcel(addr0083, "Order #4502");
 
-	//----------------------- stacked responsibilities --------
-	cout << "-------- Decorator - stacked responsibilities --------" << endl;
-	cout << p4->description() << endl;
-	cout << "priority=" << p4->isPriority() << " fragile=" << p4->isFragile()
-		<< " signed=" << p4->isSigned() << " large=" << p4->isLarge() << endl;
+	net.country->addParcel(p1);
+	net.country->addParcel(priorityParcel);
+	net.country->addParcel(p3);
 
+	runMorningDispatch(net);
+	runAfternoonIncident(net, priorityParcel, p3);
 
-	//------- valid lifecycle --
-	cout << "\n-------- State: p1 valid lifecycle --------" << endl;
-	cout << "p1: " << p1->getStatusName() << endl;
-	p1->advance();
-	cout << "p1: " << p1->getStatusName() << endl;
-	p1->advance();
-	cout << "p1: " << p1->getStatusName() << endl;
-
-	//-------- state- invalid transition on a delivered parcel --------
-	cout << "\n-------- State with invalid transition --------" << endl;
-	p1->advance();
-
-	//-------- state - alternate branch, parcel lost in transit --------
-	cout << "\n-------- State with alternate branch (lost) --------" << endl;
-	p2->advance();
-	p2->reportLost();
-	cout << "p2: " << p2->getStatusName() << endl;
-	p2->advance();
-
-	//-------- Iterator: two independent traversals over the same structure --------
-	cout << "\n-------- Iterator: full sweep vs priorit --------" << endl;
-	Iterator* fullSweep = country->createIterator();
-	Iterator* priorityOnly = country->createIterator();
-
-	fullSweep->first();
-	cout << "Full sweep: ";
-	while (!fullSweep->isDone()) {
-		cout << fullSweep->currentItem()->getStatusName() << " | ";
-		fullSweep->next();
-	}
-	cout << endl;
-
-	priorityOnly->first();
-	if (!priorityOnly->isDone() && !priorityOnly->currentItem()->isPriority()) {
-		priorityOnly->nextPriority();
-	}
-	cout << "Priority only: ";
-	while (!priorityOnly->isDone()) {
-		cout << priorityOnly->currentItem()->description() << " | ";
-		priorityOnly->nextPriority();
-	}
-	cout << endl;
-
-	delete fullSweep;
-	delete priorityOnly;
-
-	//-------- task 3, Scenario 1-  dispatchers full day report --------
-	cout << "\n-------- Scenario 1: dispatcher full day report --------" << endl;
-	Iterator* dispatcherView = country->createIterator();
-	dispatcherView->first();
-	while (!dispatcherView->isDone()) {
-		Parcel* current = dispatcherView->currentItem();
-		cout << current->description() << " [" << current->getStatusName() << "]" << endl;
-		current->advance();
-		dispatcherView->next();
-	}
-	delete dispatcherView;
-
-	//-------- task 3, Scenario 2: delivery and structural change --------
-	cout << "\n-------- Scenario 2: delivery + structural change --------" << endl;
-	p3->advance(); // p3 was already OnRoute after Scenario 1's dispatcher pass this delivers it
-
-	Iterator* beforeRemoval = zip0083->createIterator(); // snapshot taken while p3 is still active
-	zip0083->removeParcel(p3); // structural change: p3 leaves the active composite
-
-	cout << "Snapshot iterator (created before removal) still sees: ";
-	beforeRemoval->first();
-	while (!beforeRemoval->isDone()) {
-		cout << beforeRemoval->currentItem()->getStatusName() << " | ";
-		beforeRemoval->next();
-	}
-	cout << endl;
-	delete beforeRemoval;
-
-	Iterator* afterRemoval = zip0083->createIterator(); // new snapshot, taken after removal
-	int remaining = 0;
-	afterRemoval->first();
-	while (!afterRemoval->isDone()) { remaining++; afterRemoval->next(); }
-	cout << "New iterator (created after removal) sees " << remaining << " parcels left in zip 0083." << endl;
-	delete afterRemoval;
-
-	delete p3; // no longer owned by the composite, so we have to have main must clean it up
-
-	//-------- Cleanup --------
-	delete country;
+	delete priorityParcel; // removed from the composite, so main must free it
+	delete net.country;    // cascades
 	return 0;
 }

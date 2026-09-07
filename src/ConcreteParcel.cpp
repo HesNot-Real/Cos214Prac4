@@ -1,7 +1,8 @@
 #include "ConcreteParcel.h"
 
-ConcreteParcel::ConcreteParcel(std::map<RegionLevel, std::string> details) {
+ConcreteParcel::ConcreteParcel(std::map<RegionLevel, std::string> details, std::string label) {
 	addressDetails = details;
+	this->label = label;
 }
 
 std::map<RegionLevel, std::string>& ConcreteParcel::getDetails() {
@@ -41,5 +42,5 @@ bool ConcreteParcel::isLarge() {
 // }
 
 std::string ConcreteParcel::description() {
-	return "Standard parcel";
+	return label;
 }
