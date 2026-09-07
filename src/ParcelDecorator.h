@@ -16,6 +16,11 @@ class ParcelDecorator : public Parcel {
 	public:
 		ParcelDecorator(Parcel* parcel) : parcel(parcel){}
 
+		map<RegionLevel, string>& getDetails() override {
+			return parcel->getDetails();
+		}
+
+
 		virtual string description(){
 			return parcel->description();
 		}
