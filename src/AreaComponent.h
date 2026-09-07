@@ -6,6 +6,7 @@
 
 #include "Parcel.h"
 #include "RegionLevels.h"
+#include "Aggregate.h"
 
 class AreaComponent : public Aggregate {
 
