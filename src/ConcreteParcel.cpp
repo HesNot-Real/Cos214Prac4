@@ -5,7 +5,7 @@ ConcreteParcel::ConcreteParcel(std::map<RegionLevel, std::string> details) {
 }
 
 std::map<RegionLevel, std::string>& ConcreteParcel::getDetails() {
-	return addressDetails; 
+	return addressDetails;
 }
 
 bool ConcreteParcel::isPriority() {
@@ -40,6 +40,6 @@ bool ConcreteParcel::isLarge() {
 // 	return this->zipCode;
 // }
 
-string ConcreteParcel::description() {
+std::string ConcreteParcel::description() {
 	return "Standard parcel";
 }

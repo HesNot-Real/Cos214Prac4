@@ -57,7 +57,7 @@ int main() {
 	cout << "-------- Decorator - stacked responsibilities --------" << endl;
 	cout << p4->description() << endl;
 	cout << "priority=" << p4->isPriority() << " fragile=" << p4->isFragile()
-	     << " signed=" << p4->isSigned() << " large=" << p4->isLarge() << endl;
+		<< " signed=" << p4->isSigned() << " large=" << p4->isLarge() << endl;
 
 
 	//------- valid lifecycle --

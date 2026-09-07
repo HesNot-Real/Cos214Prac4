@@ -10,8 +10,8 @@ class ParcelState;
 
 class Parcel {
 
-	protected:
-		ParcelState* state; //mo
+protected:
+	ParcelState* state; //mo
 
 public:
 
@@ -33,7 +33,7 @@ public:
 
 	// virtual string getZipCode() = 0;
 
-	virtual string description() = 0;
+	virtual std::string description() = 0;
 
 	virtual ~Parcel();
 	//mo for state
