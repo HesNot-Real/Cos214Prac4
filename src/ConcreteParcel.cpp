@@ -1,7 +1,7 @@
 #include "ConcreteParcel.h"
 
 std::map<RegionLevel, std::string>& ConcreteParcel::getDetails() {
-	return addressDetails; 
+	return addressDetails;
 }
 
 bool ConcreteParcel::isPriority() {
@@ -20,22 +20,25 @@ bool ConcreteParcel::isLarge() {
 	return false;
 }
 
-string ConcreteParcel::getCountry() {
-	return this->country;
+std::string ConcreteParcel::getCountry() {
+	return this->addressDetails[RegionLevel::Country];
 }
 
-string ConcreteParcel::getProvince() {
-	return this->province;
+std::string ConcreteParcel::getProvince() {
+	return this->addressDetails[RegionLevel::Province];
+
 }
 
-string ConcreteParcel::getCity() {
-	return this->city;
+std::string ConcreteParcel::getCity() {
+	return this->addressDetails[RegionLevel::City];
+
 }
 
-string ConcreteParcel::getZipCode() {
-	return this->zipCode;
+std::string ConcreteParcel::getZipCode() {
+	return this->addressDetails[RegionLevel::ZipCode];
+
 }
 
-string ConcreteParcel::description() {
+std::string ConcreteParcel::description() {
 	return "Standard parcel";
 }

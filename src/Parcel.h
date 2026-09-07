@@ -3,14 +3,13 @@
 
 #include <string>
 #include <map>
-using namespace std;
 
 class ParcelState;
 
 class Parcel {
 
-	protected:
-		ParcelState* state; //mo
+protected:
+	ParcelState* state; //mo
 
 public:
 
@@ -24,23 +23,23 @@ public:
 
 	virtual bool isLarge() = 0;
 
-	virtual string getCountry() = 0;
+	virtual std::string getCountry() = 0;
 
-	virtual string getProvince() = 0;
+	virtual std::string getProvince() = 0;
 
-	virtual string getCity() = 0;
+	virtual std::string getCity() = 0;
 
-	virtual string getZipCode() = 0;
+	virtual std::string getZipCode() = 0;
 
-	virtual string description() = 0;
+	virtual std::string description() = 0;
 
 	virtual ~Parcel();
 	//mo for state
 	void advance();
 	void reportLost();
-	string getStatusName();
+	std::string getStatusName();
 	void setState(ParcelState* newState);
-	virtual map<RegionLevel, string>& getDetails() = 0;
+	virtual std::map<RegionLevel, std::string>& getDetails() = 0;
 
 
 
