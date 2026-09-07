@@ -1,6 +1,6 @@
 
 
-enum RegionLevel {
+enum class RegionLevel {
 	Country,
 	Province,
 	City,
