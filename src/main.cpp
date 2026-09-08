@@ -93,7 +93,7 @@ void LostBranch(Parcel* p, string label) {
 	cout << "  parcel reported lost" << endl;
 	p->reportLost();
 	cout << "  status: " << p->getStatusName() << endl;
-	cout << "  sill mistake, parcel reported lost again :" << endl;
+	cout << "  silly mistake, parcel reported lost again :" << endl;
 	p->reportLost();
 }
 
