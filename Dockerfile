@@ -19,4 +19,5 @@ COPY src/ ./src/
 
 RUN make
 
-CMD ["./taskforge"]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/bin/bash"]
