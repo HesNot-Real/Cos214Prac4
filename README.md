@@ -31,7 +31,7 @@ docker build -t cos214pa4 .
 
 Run Docker
 ```bash
-docker run --rm cos214pa4
+docker run -it cos214pa4
 ```
 
 Compile
@@ -44,4 +44,16 @@ Run
 
 ```bash
 ./taskforge
+```
+
+Run valgrind
+```bash
+valgrind ./taskforge
+```
+
+
+Run gdb
+```bash
+make test
+make runtest
 ```
